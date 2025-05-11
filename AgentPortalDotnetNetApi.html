@@ -165,3 +165,55 @@ Response: { "isEnabled": true }
 </pre>
 
 <p>This response indicates that the <code>NewDashboard</code> feature is enabled.</p>
+
+<h2>Feature Flags: Dynamic Feature Management</h2>
+<p>The Agent Portal backend uses <strong>Microsoft.FeatureManagement</strong> to enable or disable features dynamically at runtime. This allows for safe feature rollouts, A/B testing, and quick toggling of application functionality without redeploying code.</p>
+
+<h3>Feature Flag API Endpoint</h3>
+<p>The <code>FeaturesController</code> exposes an endpoint to check if a feature is enabled:</p>
+<pre><code>[HttpGet]
+public async Task<IActionResult> CheckFeature([FromQuery]string feature)
+{
+    try
+    {
+        var isEnabled = await featureManager.IsEnabledAsync(feature);
+        return Ok(new { isEnabled });
+    }
+    catch (NotSupportedException)
+    {
+        return Ok(new { isEnabled = false });
+    }
+}
+</code></pre>
+<ul>
+  <li><strong>Route:</strong> <code>GET /features?feature=FeatureName</code></li>
+  <li><strong>Returns:</strong> <code>{ isEnabled: true/false }</code> depending on the feature flag status.</li>
+  <li><strong>Service:</strong> Uses <code>IFeatureManager</code> from <code>Microsoft.FeatureManagement</code> to check feature status.</li>
+</ul>
+
+<h3>FeatureFlagMiddlewareHelper</h3>
+<p>The <code>FeatureFlagMiddlewareHelper</code> class provides utility methods to:</p>
+<ul>
+  <li>Check if a request path matches a feature-flagged route.</li>
+  <li>Determine if a feature is enabled for a given path using <code>IFeatureManager</code>.</li>
+  <li>Maintain a whitelist of paths and a mapping of features to API routes.</li>
+</ul>
+<p>This enables fine-grained control over which API endpoints are governed by feature flags.</p>
+
+<h3>Configuration</h3>
+<ul>
+  <li>Feature flags are defined in <code>appsettings.json</code> under the <code>FeatureManagement</code> section.</li>
+  <li>Flags can be toggled without code changes or redeployment.</li>
+</ul>
+
+<h3>Example Usage</h3>
+<pre><code>// appsettings.json
+"FeatureManagement": {
+  "NewFeature": true,
+  "BetaFeature": false
+}
+</code></pre>
+<p>To check if <code>NewFeature</code> is enabled, call <code>/features?feature=NewFeature</code>.</p>
+
+<h2>Implemented Features Summary</h2>
+<p>Implemented a robust feature flag system by designing and developing .NET 8 Web API endpoints using Microsoft.FeatureManagement for dynamic feature management, integrating Directus for content/data management, and connecting Vue 3 frontend logic with Pinia state management and Axios for real-time feature toggling. Enabled or disabled UI components and workflows based on live configuration, supporting safer deployments, controlled rollouts, and rapid experimentation without code redeployment.</p>

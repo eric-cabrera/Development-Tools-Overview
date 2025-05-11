@@ -33,6 +33,12 @@
         a:hover {
             text-decoration: underline;
         }
+        pre {
+            background: #f8f8f8;
+            padding: 10px;
+            overflow-x: auto;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -196,5 +202,104 @@
         </tr>
     </tbody>
 </table>
+
+<h2>Pinia Feature Store Example (Vue.js)</h2>
+<p>This is an example of a Pinia store for feature management in a Vue.js application, with line-by-line explanations:</p>
+<pre><code>// Import Pinia's defineStore function to create a store
+import { defineStore } from "pinia"; // 1
+// Import Vue's reactive and ref for state management
+import { reactive, ref } from "vue"; // 2
+// Import axios for HTTP requests
+import axios from "axios"; // 3
+// Import a TypeScript type for the API response
+import type { FeatureResponse } from "@/models/Responses/FeatureResponse"; // 4
+
+// Define an interface for the feature map object
+interface FeatureMap { // 5
+  [key: string]: boolean;
+}
+
+// Create a Pinia store named "feature"
+export const useFeatureStore = defineStore("feature", () => { // 6
+  // Create a reactive object to track feature flags
+  const feature: FeatureMap = reactive({ // 7
+    commissions: false,
+    left_nav: false,
+    productioncredit: false,
+    listbill: false,
+    claims: false,
+    taxforms: false,
+    casemanagement: false,
+    commissiondates: false,
+  });
+
+  // Create a ref to control navigation visibility
+  const hideNav = ref<boolean>(false); // 8
+
+  // Define an async function to check if a feature is enabled
+  async function checkFeature(featureName: string) { // 9
+    try {
+      // Make an HTTP GET request to check the feature status
+      const featureResponse = await axios.get<FeatureResponse>( // 10
+        `/features?feature=${featureName}`,
+      );
+
+      // Update the feature flag based on the response
+      feature[featureName] = featureResponse.data.isEnabled; // 11
+    } catch (error) {
+      // Log errors and set the feature flag to false if the request fails
+      console.error(error); // 12
+      feature[featureName] = false;
+    }
+  }
+
+  // Return the state and actions for use in components
+  return { // 13
+    feature,
+    hideNav,
+    checkFeature,
+  };
+});
+</code></pre>
+<ul>
+  <li><b>1-4:</b> Import necessary libraries and types for Pinia, Vue, axios, and the API response.</li>
+  <li><b>5:</b> Define the <code>FeatureMap</code> interface for feature flags.</li>
+  <li><b>6:</b> Create a Pinia store named <code>feature</code>.</li>
+  <li><b>7:</b> Define a reactive object to hold feature flags.</li>
+  <li><b>8:</b> Define a ref for navigation visibility.</li>
+  <li><b>9-12:</b> Define an async function to check and update feature flags from an API.</li>
+  <li><b>13:</b> Return the state and actions for use in Vue components.</li>
+</ul>
+<p><i>Note: This code is for use in a Vue 3 + Pinia project, not directly in HTML. It is shown here for educational purposes.</i></p>
+
+<h3>Pinia Feature Store Sequence Diagram</h3>
+<p>The following sequence diagram illustrates the flow when checking if a feature is enabled in a Vue.js application using Pinia:</p>
+<pre><code class="language-mermaid">sequenceDiagram
+    participant Component
+    participant Store
+    participant API
+    Component->>Store: Call checkFeature(featureName)
+    Store->>API: HTTP GET /features?feature=featureName
+    API-->>Store: Respond with isEnabled
+    Store-->>Store: Update feature state
+    Store-->>Component: State is reactive, UI updates
+</code></pre>
+<ul>
+  <li><b>1.</b> The Vue component calls <code>checkFeature</code> from the Pinia store when it needs to check a feature.</li>
+  <li><b>2.</b> The store makes an HTTP request to the API endpoint.</li>
+  <li><b>3.</b> The API responds with the feature status.</li>
+  <li><b>4.</b> The store updates its reactive state.</li>
+  <li><b>5.</b> The UI automatically updates based on the new state.</li>
+</ul>
+<p><i>This sequence ensures the UI always reflects the latest feature status from the backend.</i></p>
+
+<h2>Pinia Store State Lifetime</h2>
+<p><b>How long does the state live?</b></p>
+<ul>
+  <li>Pinia store state lives as long as the page is loaded in the browser. If you navigate between pages using Vue Router (client-side navigation), the state is preserved and you do <b>not</b> need to call the API again.</li>
+  <li>If you do a full page reload (F5 or browser refresh), the state is lost and you will need to call the API again to repopulate the store.</li>
+  <li>If you want the state to persist across reloads, you can use a plugin like <code>pinia-plugin-persistedstate</code> to save the state to <code>localStorage</code> or <code>sessionStorage</code>.</li>
+</ul>
+<p><i>Summary: As long as you stay within your SPA (Single Page Application) and do not reload the browser, the Pinia store state is kept in memory and shared across all pages.</i></p>
 </body>
 </html>

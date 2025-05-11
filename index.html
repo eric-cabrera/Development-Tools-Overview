@@ -29,21 +29,39 @@
 <body>
     <ul>
         <li><a href="AI.html" target="_blank">AI</a></li>
-        <li><a href="csharp.html" target="_blank">C#</a></li>
-        <li><a href="githubCopilot.html" target="_blank">GitHub Copilot</a></li>
-        <li><a href="NETCore-EntityFramework.html" target="_blank">NET Core</a></li>
-        <li><a href="net9.html" target="_blank">.NET 9</a></li>
-        <li><a href="RESTfulAPIs.html" target="_blank">RESTful APIs</a></li>
-        <li><a href="SQLServer.html" target="_blank">SQL Server</a></li>
-        <li><a href="SQL_LINQ.html" target="_blank">SQL and LINQ</a></li>
-        <li><a href="frontend-tools.html" target="_blank">Frontend Tools (Vue, Angular, React, Blazor)</a></li>
-        <li><a href="Blazor-WebAssembly-WASM-QandA.html" target="_blank">Blazor Q&amp;A</a></li>
-        <li><a href="react_questions_and_answers.html" target="_blank">React Q&amp;A</a></li>
-        <li><a href="PostgreSQL.html" target="_blank">PostgreSQL</a></li>
-        <li><a href="typescript.html" target="_blank">TypeScript</a></li>
         <li><a href="AgentPortalDotnetNetApi.html" target="_blank">Agent Portal .NET API</a></li>
         <li><a href="AgentPortalDotnetVue.html" target="_blank">Agent Portal .NET Vue</a></li>
+        <li><a href="Art_Of_The_Deal.html" target="_blank">Art of the Deal</a></li>
+        <li><a href="Blazor-WebAssembly-WASM-QandA.html" target="_blank">Blazor Q&amp;A</a></li>
+        <li><a href="csharp.html" target="_blank">C#</a></li>
         <li><a href="Eric_Cabrera_Resume.txt" target="_blank">Eric Cabrera Resume</a></li>
+        <li><a href="frontend-tools.html" target="_blank">Frontend Tools (Vue, Angular, React, Blazor)</a></li>
+        <li><a href="githubCopilot.html" target="_blank">GitHub Copilot</a></li>
+        <li><a href="net9.html" target="_blank">.NET 9</a></li>
+        <li><a href="NETCore-EntityFramework.html" target="_blank">NET Core</a></li>
+        <li><a href="PostgreSQL.html" target="_blank">PostgreSQL</a></li>
+        <li><a href="react_questions_and_answers.html" target="_blank">React Q&amp;A</a></li>
+        <li><a href="RESTfulAPIs.html" target="_blank">RESTful APIs</a></li>
+        <li><a href="SQL_LINQ.html" target="_blank">SQL and LINQ</a></li>
+        <li><a href="SQLServer.html" target="_blank">SQL Server</a></li>
+        <li><a href="security.html" target="_blank">Security</a></li>
+        <li><a href="typescript.html" target="_blank">TypeScript</a></li>
+        <li><a href="DistributedSystems.html">Distributed Systems</a></li>
     </ul>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const ul = document.querySelector('ul');
+            const items = Array.from(ul.querySelectorAll('li'));
+
+            items.sort((a, b) => {
+                const textA = a.textContent.trim().toLowerCase();
+                const textB = b.textContent.trim().toLowerCase();
+                return textA.localeCompare(textB);
+            });
+
+            ul.innerHTML = '';
+            items.forEach(item => ul.appendChild(item));
+        });
+    </script>
 </body>
 </html>

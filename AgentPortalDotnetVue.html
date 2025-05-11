@@ -135,7 +135,14 @@
             </tr>
             <tr>
                 <td>ESLint</td>
-                <td>A tool for identifying and fixing problems in JavaScript code, often indicated by red squigglies in the editor.</td>
+                <td>
+                    A tool for identifying and fixing problems in JavaScript code, often indicated by red squigglies in the editor.<br>
+                    <strong>To run ESLint before a pull request:</strong><br>
+                    <code>npm run lint</code><br>
+                    This checks your code for linting errors and attempts to fix them.<br>
+                    To automatically fix fixable issues, run:<br>
+                    <code>npm run lint:fix</code>
+                </td>
             </tr>
             <tr>
                 <td>Prettier</td>
@@ -143,6 +150,35 @@
             </tr>
         </tbody>
     </table>
+    <h2>Feature Flag</h2>
+    <p>
+      The <strong>feature flag</strong> system in this project enables or disables specific features dynamically, allowing for safer deployments, controlled rollouts, and rapid experimentation. This implementation involves several technologies working together across the backend and frontend:
+    </p>
+    <ul>
+      <li>
+        <strong>.NET 8 Web API</strong>: Provides RESTful endpoints for managing feature flag states. Administrators can toggle features on or off without redeploying code. The API securely stores and retrieves flag configurations, ensuring real-time control over application behavior.<br>
+        <a href="https://learn.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-8.0" target="_blank">Learn more about .NET 8 Web API</a>
+      </li>
+      <li>
+        <strong>Vue 3</strong>: The frontend consumes the feature flag API to determine which UI components and workflows should be enabled or disabled. This is achieved using reactive state and conditional rendering, ensuring the user interface reflects the current flag status.<br>
+        <a href="https://vuejs.org/guide/introduction.html" target="_blank">Learn more about Vue 3</a>
+      </li>
+      <li>
+        <strong>Pinia</strong>: Used for client-side state management, Pinia can store the current feature flag states fetched from the backend, making them easily accessible throughout the application.<br>
+        <a href="https://pinia.vuejs.org/" target="_blank">Learn more about Pinia</a>
+      </li>
+      <li>
+        <strong>Axios</strong>: Handles HTTP requests between the Vue frontend and the .NET 8 Web API, including authentication and error handling for feature flag operations.<br>
+        <a href="https://axios-http.com/" target="_blank">Learn more about Axios</a>
+      </li>
+      <li>
+        <strong>Azure DevOps</strong>: Supports CI/CD pipelines, ensuring that feature flag changes and related code updates are tested and deployed reliably across environments.<br>
+        <a href="https://learn.microsoft.com/en-us/azure/devops/pipelines/?view=azure-devops" target="_blank">Learn more about Azure DevOps Pipelines</a>
+      </li>
+    </ul>
+    <p>
+      By combining these technologies, the project achieves a robust and flexible feature flag system that empowers both developers and administrators to manage application features efficiently and safely.
+    </p>
     <h2>File Structure</h2>
 <pre>
 App/
