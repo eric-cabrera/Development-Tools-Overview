@@ -38,5 +38,24 @@
         </li>
         <li>Replace <code>main</code> with your branch name if different.</li>
     </ul>
+    <h2>Scenario: PR Approvals and Merging Develop</h2>
+    <p><strong>Scenario:</strong> You created a pull request (PR). Some people approved it, but you were told not to complete it yet. Later, you see a warning about your branch being out of date. Paul says:</p>
+    <blockquote>
+        <strong>Paul Williams</strong> (Wednesday):<br>
+        <em>It's not necessary to merge Develop into this branch unless it contains changes that will impact this PR. Merging Develop unnecessarily just resets the votes.</em>
+    </blockquote>
+    <h3>What does this mean?</h3>
+    <ul>
+        <li>Only merge <code>develop</code> into your branch if you need updates from <code>develop</code> (e.g., bug fixes, new features, or to resolve conflicts).</li>
+        <li>If you merge <code>develop</code> into your branch, PR approvals may be reset and reviewers will need to approve again.</li>
+        <li>If you do <strong>not</strong> merge <code>develop</code>, your PR remains as-is and votes are preserved. Any conflicts will be resolved when the PR is eventually merged.</li>
+    </ul>
+    <h3>Best Practice</h3>
+    <ul>
+        <li>Do <strong>not</strong> merge <code>develop</code> into your branch unless necessary.</li>
+        <li>Communicate with your team if you are unsure whether you need to update your branch.</li>
+    </ul>
+    <h3>Summary</h3>
+    <p>Only update your branch with <code>develop</code> if it is required for your changes to work or to resolve conflicts. Otherwise, leave your branch as-is to avoid resetting PR approvals.</p>
 </body>
 </html>
